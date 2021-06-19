@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -71,7 +71,7 @@ contract Crowdsale is Context, ReentrancyGuard {
      * of 2300, which is not enough to call buyTokens. Consider calling
      * buyTokens directly when purchasing tokens from a contract.
      */
-    receive () external payable {
+    receive() external payable {
         buyTokens(_msgSender());
     }
 
@@ -188,14 +188,14 @@ contract Crowdsale is Context, ReentrancyGuard {
      * @param weiAmount Value in wei to be converted into tokens
      * @return Number of tokens that can be purchased with the specified _weiAmount
      */
-    function _getTokenAmount(uint256 weiAmount) internal view returns (uint256) {
+    function _getTokenAmount(uint256 weiAmount) internal view virtual returns (uint256) {
         return weiAmount.mul(_rate);
     }
 
     /**
      * @dev Determines how ETH is stored/forwarded on purchases.
      */
-    function _forwardFunds() internal virtual {
+    function _forwardFunds() internal {
         _wallet.transfer(msg.value);
     }
 }
